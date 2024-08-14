@@ -14,15 +14,10 @@
   # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda";
-  #boot.loader.grub.useOSProber = true;
-  #boot.loader.grub.theme = "${pkgs.sleek-grub-theme}/Sleek\ theme-dark";
+  boot.loader.grub.efiSupport = true;
+
 
   networking.hostName = "nixos"; # Define your hostname.
-  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -47,6 +42,7 @@
 
   # Configure keymap in X11
   services.xserver = {
+    gdm.enable = true;
     xkb = {
       layout = "us";
       variant = "";
@@ -61,15 +57,9 @@
   services.displayManager = {
     enable = true;
     defaultSession = "none+i3";
-    sddm = {
-      enable = true;
-      theme = "catppuccin-macchiato";
-      package = pkgs.kdePackages.sddm;
-    };
   };
   
   programs.zsh.enable = true;
-
 
   users.users.sert = {
     isNormalUser = true;
@@ -130,6 +120,7 @@
 
 	# keep at end
 	eval "$(zoxide init zsh)"'';
+
       oh-my-zsh = {
 	enable = true;
 	theme = "steeef";	
@@ -139,6 +130,7 @@
 	enable = true;
 	enableZshIntegration = true;
     };
+
     programs.rofi = {
       enable = true;
       cycle = true;
@@ -228,26 +220,15 @@
   
   nix.settings.experimental-features = ["flakes" "nix-command"];
   environment.pathsToLink = [ "/share/zsh" "/libexec"];
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+
+#### SYSTEMWIDE INSTALLATIONS (PUT UNFREE PACKAGES HERE)
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
     jetbrains-toolbox
     vscode
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
+#### SYSTEMWIDE SERVICES
 	services.openssh.enable = true;
 	services.tlp = {
 		enable = true;
@@ -255,23 +236,13 @@
 	};
 	services.upower.enable = true;
 	programs.coolercontrol.enable = true;
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  	system.stateVersion = "24.05"; # Did you read the comment?
+
+  	system.stateVersion = "24.05"; # Do not change this
 
 	swapDevices = [{
 		device = "/swapfile";
-		size = 10 * 1024;
+		size = # MUST BE ADDED BEFORE REBUILD ( cat /proc/meminfo for memory information )
 	}];
 
 
