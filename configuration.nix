@@ -42,7 +42,7 @@
 
   # Configure keymap in X11
   services.xserver = {
-    gdm.enable = true;
+    displayManager.gdm.enable = true;
     xkb = {
       layout = "us";
       variant = "";
@@ -99,6 +99,7 @@
       gnumake
 	gcc
 	nemo-with-extensions
+	appimage-run
 	
     ];
 
