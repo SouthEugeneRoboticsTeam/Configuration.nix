@@ -96,6 +96,7 @@
       eza
       trashy
       xcolor
+      hyfetch
       gnumake
 	gcc
 	nemo-with-extensions
