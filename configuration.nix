@@ -91,6 +91,7 @@
       fastfetch
       lm_sensors
       acpi
+      pavucontrol
       git
       bottom
       eza
